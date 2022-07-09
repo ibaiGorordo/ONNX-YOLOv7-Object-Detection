@@ -57,7 +57,7 @@ The original YOLOv7 model can be found in this repository: [YOLOv7 Repository](h
  ```
  python video_object_detection.py
  ```
- ![!YOLOv7 detection video](https://github.com/ibaiGorordo/ONNX-YOLOv6-Object-Detection/blob/main/doc/img/yolov7_video.gif)
+ ![!YOLOv7 detection video](https://github.com/ibaiGorordo/ONNX-YOLOv7-Object-Detection/blob/main/doc/img/yolov7_video.gif)
  
   *Original video: https://youtu.be/zPre8MgmcHY*
 
@@ -65,7 +65,7 @@ The original YOLOv7 model can be found in this repository: [YOLOv7 Repository](h
  ```
  python comparison_with_yolov5_v6.py
  ```
-![!YOLOv7 Vs YOLOv5 detection video](https://github.com/ibaiGorordo/ONNX-YOLOv6-Object-Detection/blob/main/doc/img/yolov7_yolov5_video.gif)
+![!YOLOv7 Vs YOLOv5 detection video](https://github.com/ibaiGorordo/ONNX-YOLOv7-Object-Detection/blob/main/doc/img/yolov7_yolov5_video.gif)
   *Original video: https://youtu.be/zPre8MgmcHY* 
 
 - Replace the `yolov5_v6_path` with the actual path to the YOLOv5 or YOLOv6 model.
