@@ -73,7 +73,7 @@ The original YOLOv7 model can be found in this repository: [YOLOv7 Repository](h
 - **Convert YOLOv6 model to ONNX** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1pke1ffMeI2dXkIAbzp6IHWdQ0u8S6I0n?usp=sharing)
 
 # References:
-* YOLOv7 model: 
+* YOLOv7 model: https://github.com/WongKinYiu/yolov7
 * YOLOv6 model: https://github.com/WongKinYiu/yolov7
 * YOLOv5 model: https://github.com/ultralytics/yolov5
 * PINTO0309's model zoo: https://github.com/PINTO0309/PINTO_model_zoo
