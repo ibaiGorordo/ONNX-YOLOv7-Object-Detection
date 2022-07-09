@@ -74,6 +74,7 @@ The original YOLOv7 model can be found in this repository: [YOLOv7 Repository](h
 
 # References:
 * YOLOv7 model: https://github.com/WongKinYiu/yolov7
+* Paper: https://arxiv.org/abs/2207.02696
 * YOLOv6 model: https://github.com/WongKinYiu/yolov7
 * YOLOv5 model: https://github.com/ultralytics/yolov5
 * PINTO0309's model zoo: https://github.com/PINTO0309/PINTO_model_zoo
