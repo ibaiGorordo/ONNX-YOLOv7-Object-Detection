@@ -26,14 +26,21 @@ class YOLOv7:
         self.get_input_details()
         self.get_output_details()
 
+        self.has_postprocess = 'score' in self.output_names
+
+
     def detect_objects(self, image):
         input_tensor = self.prepare_input(image)
 
         # Perform inference on the image
-        output = self.inference(input_tensor)
+        outputs = self.inference(input_tensor)
 
-        # Process output data
-        self.boxes, self.scores, self.class_ids = self.process_output(output)
+        if self.has_postprocess:
+            self.boxes, self.scores, self.class_ids = self.parse_processed_output(outputs)
+
+        else:
+            # Process output data
+            self.boxes, self.scores, self.class_ids = self.process_output(outputs)
 
         return self.boxes, self.scores, self.class_ids
 
@@ -55,13 +62,13 @@ class YOLOv7:
 
     def inference(self, input_tensor):
         start = time.perf_counter()
-        outputs = self.session.run(self.output_names, {self.input_names[0]: input_tensor})[0]
+        outputs = self.session.run(self.output_names, {self.input_names[0]: input_tensor})
 
         # print(f"Inference time: {(time.perf_counter() - start)*1000:.2f} ms")
         return outputs
 
     def process_output(self, output):
-        predictions = np.squeeze(output)
+        predictions = np.squeeze(output[0])
 
         # Filter out object confidence scores below threshold
         obj_conf = predictions[:, 4]
@@ -89,17 +96,48 @@ class YOLOv7:
 
         return boxes[indices], scores[indices], class_ids[indices]
 
+    def parse_processed_output(self, outputs):
+
+        scores = np.squeeze(outputs[self.output_names.index('score')])
+        predictions = outputs[self.output_names.index('batchno_classid_x1y1x2y2')]
+
+        # Filter out object scores below threshold
+        valid_scores = scores > self.conf_threshold
+        predictions = predictions[valid_scores, :]
+        scores = scores[valid_scores]
+
+        # Extract the boxes and class ids
+        # TODO: Separate based on batch number
+        batch_number = predictions[:, 0]
+        class_ids = predictions[:, 1]
+        boxes = predictions[:, 2:]
+
+        # In postprocess, the x,y are the y,x
+        boxes = boxes[:, [1, 0, 3, 2]]
+
+        # Rescale boxes to original image dimensions
+        boxes = self.rescale_boxes(boxes)
+
+        return boxes, scores, class_ids
+
     def extract_boxes(self, predictions):
         # Extract boxes from predictions
         boxes = predictions[:, :4]
 
         # Scale boxes to original image dimensions
-        boxes /= np.array([self.input_width, self.input_height, self.input_width, self.input_height])
-        boxes *= np.array([self.img_width, self.img_height, self.img_width, self.img_height])
+        boxes = self.rescale_boxes(boxes)
 
         # Convert boxes to xyxy format
         boxes = xywh2xyxy(boxes)
 
+        return boxes
+
+    def rescale_boxes(self, boxes):
+
+        # Rescale boxes to original image dimensions
+        input_shape = np.array([self.input_width, self.input_height, self.input_width, self.input_height])
+        boxes = np.divide(boxes, input_shape, dtype=np.float32)
+        boxes *= np.array([self.img_width, self.img_height, self.img_width, self.img_height])
         return boxes
 
     def draw_detections(self, image, draw_scores=True, mask_alpha=0.4):
