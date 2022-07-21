@@ -33,7 +33,8 @@ pip install git+https://github.com/zizo-pro/pafy@b8976f22c19e4ab5515cacbfae0a397
 ```
 
 # ONNX model 
-The original models were converted to different formats (including .onnx) by [PINTO0309](https://github.com/PINTO0309). Download the models from **[his repository]**(https://github.com/PINTO0309/PINTO_model_zoo/tree/main/307_YOLOv7) and save them into the **[models](https://github.com/ibaiGorordo/ONNX-YOLOv7-Object-Detection/tree/main/models)** folder"
+The original models were converted to different formats (including .onnx) by [PINTO0309](https://github.com/PINTO0309). Download the models from **[his repository]**(https://github.com/PINTO0309/PINTO_model_zoo/tree/main/307_YOLOv7) and save them into the **[models](https://github.com/ibaiGorordo/ONNX-YOLOv7-Object-Detection/tree/main/models)** folder". For that, run the `download_single_batch.sh` and copy the downloaded `yolov7-tiny_480x640.onnx` to your models directory, and fix the file name in the python scripts accordingly.
+
 - The License of the models is GPL-3.0 license: [License](https://github.com/WongKinYiu/yolov7/blob/main/LICENSE.md)
 
 # Original YOLOv7 model
