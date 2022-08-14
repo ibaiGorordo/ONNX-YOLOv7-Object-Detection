@@ -9,10 +9,10 @@
 
 # Requirements
 
- * Check the **requirements.txt** file. 
+ * Check the **requirements.txt** file.
  * For ONNX, if you have a NVIDIA GPU, then install the **onnxruntime-gpu**, otherwise use the **onnxruntime** library.
  * Additionally, **pafy** and **youtube-dl** are required for youtube video inference.
- 
+
 # Installation
 ```
 git clone https://github.com/ibaiGorordo/ONNX-YOLOv7-Object-Detection.git
@@ -32,22 +32,23 @@ pip install youtube_dl
 pip install git+https://github.com/zizo-pro/pafy@b8976f22c19e4ab5515cacbfae0a3970370c102b
 ```
 
-# ONNX model 
-The original models were converted to different formats (including .onnx) by [PINTO0309](https://github.com/PINTO0309). Download the models from **[his repository]**(https://github.com/PINTO0309/PINTO_model_zoo/tree/main/307_YOLOv7) and save them into the **[models](https://github.com/ibaiGorordo/ONNX-YOLOv7-Object-Detection/tree/main/models)** folder"
+# ONNX model
+The original models were converted to different formats (including .onnx) by [PINTO0309](https://github.com/PINTO0309). Download the models from **[his repository]**(https://github.com/PINTO0309/PINTO_model_zoo/tree/main/307_YOLOv7). For that, you can either run the `download_single_batch.sh` or copy the google drive link inside that script in your browser to manually download the file. Then, extract and copy the downloaded onnx models (for example `yolov7-tiny_480x640.onnx`) to your **[models directory](https://github.com/ibaiGorordo/ONNX-YOLOv7-Object-Detection/tree/main/models)**, and fix the file name in the python scripts accordingly.
+
 - The License of the models is GPL-3.0 license: [License](https://github.com/WongKinYiu/yolov7/blob/main/LICENSE.md)
 
 # Original YOLOv7 model
 The original YOLOv7 model can be found in this repository: [YOLOv7 Repository](https://github.com/WongKinYiu/yolov7)
 - For **Darknet style model**, check the [darknet branch](https://github.com/WongKinYiu/yolov7/tree/darknet)
-- For **YOLOv5 compatible model**, the the [u5 branch](https://github.com/WongKinYiu/yolov7/tree/u5)
- 
+- For **YOLOv5 compatible model**, check the [u5 branch](https://github.com/WongKinYiu/yolov7/tree/u5)
+
 # Examples
 
  * **Image inference**:
  ```
  python image_object_detection.py
  ```
- 
+
  * **Webcam inference**:
  ```
  python webcam_object_detection.py
@@ -58,7 +59,7 @@ The original YOLOv7 model can be found in this repository: [YOLOv7 Repository](h
  python video_object_detection.py
  ```
  ![!YOLOv7 detection video](https://github.com/ibaiGorordo/ONNX-YOLOv7-Object-Detection/blob/main/doc/img/yolov7_video.gif)
- 
+
   *Original video: https://youtu.be/zPre8MgmcHY*
 
  * **Comparison with YOLOv5 or YOLOv6**: https://youtu.be/WSFmLMLIbDQ
@@ -67,7 +68,7 @@ The original YOLOv7 model can be found in this repository: [YOLOv7 Repository](h
  ```
 ![!YOLOv7 Vs YOLOv5 detection video](https://github.com/ibaiGorordo/ONNX-YOLOv7-Object-Detection/blob/main/doc/img/yolov7_yolov5_video.gif)
 ![!YOLOv7 Vs YOLOv6 detection video](https://github.com/ibaiGorordo/ONNX-YOLOv7-Object-Detection/blob/main/doc/img/yolov7_yolov6_video.gif)
-  *Original video: https://youtu.be/zPre8MgmcHY* 
+  *Original video: https://youtu.be/zPre8MgmcHY*
 
 - Replace the `yolov5_v6_path` with the actual path to the YOLOv5 or YOLOv6 model.
 - **Convert YOLOv5 model to ONNX** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1V-F3erKkPun-vNn28BoOc6ENKmfo8kDh?usp=sharing)
