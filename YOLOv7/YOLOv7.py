@@ -86,7 +86,7 @@ class YOLOv7:
         scores = scores[scores > self.conf_threshold]
 
         if len(scores) == 0:
-            return None, None, None
+            return [], [], []
 
         # Get the class with the highest confidence
         class_ids = np.argmax(predictions[:, 5:], axis=1)
@@ -101,16 +101,15 @@ class YOLOv7:
 
     def parse_processed_output(self, outputs):
 
-        scores = np.squeeze(outputs[self.output_names.index('score')])
-        predictions = outputs[self.output_names.index('batchno_classid_x1y1x2y2')]
-
+        scores = np.squeeze(outputs[0], axis=1)
+        predictions = outputs[1]
         # Filter out object scores below threshold
         valid_scores = scores > self.conf_threshold
         predictions = predictions[valid_scores, :]
         scores = scores[valid_scores]
 
         if len(scores) == 0:
-            return None, None, None
+            return [], [], []
 
         # Extract the boxes and class ids
         # TODO: Separate based on batch number
@@ -147,8 +146,6 @@ class YOLOv7:
         return boxes
 
     def draw_detections(self, image, draw_scores=True, mask_alpha=0.4):
-        if self.boxes is None:
-            return image
 
         return draw_detections(image, self.boxes, self.scores,
                                self.class_ids, mask_alpha)
