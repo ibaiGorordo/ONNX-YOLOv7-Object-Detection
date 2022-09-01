@@ -82,7 +82,7 @@ class YOLOv7:
         scores = np.max(predictions[:, 5:], axis=1)
 
         # Filter out the objects with a low score
-        predictions = predictions[obj_conf > self.conf_threshold]
+        predictions = predictions[scores > self.conf_threshold]
         scores = scores[scores > self.conf_threshold]
 
         if len(scores) == 0:
