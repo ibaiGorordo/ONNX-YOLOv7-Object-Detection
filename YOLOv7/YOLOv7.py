@@ -3,14 +3,15 @@ import cv2
 import numpy as np
 import onnxruntime
 
-from .utils import xywh2xyxy, nms, draw_detections
+from yolov7.utils import xywh2xyxy, nms, draw_detections
 
 
 class YOLOv7:
 
-    def __init__(self, path, conf_thres=0.7, iou_thres=0.5):
+    def __init__(self, path, conf_thres=0.7, iou_thres=0.5, official_nms=False):
         self.conf_threshold = conf_thres
         self.iou_threshold = iou_thres
+        self.official_nms = official_nms
 
         # Initialize model
         self.initialize_model(path)
@@ -26,7 +27,7 @@ class YOLOv7:
         self.get_input_details()
         self.get_output_details()
 
-        self.has_postprocess = 'score' in self.output_names
+        self.has_postprocess = 'score' in self.output_names or self.official_nms
 
 
     def detect_objects(self, image):
@@ -64,7 +65,7 @@ class YOLOv7:
         start = time.perf_counter()
         outputs = self.session.run(self.output_names, {self.input_names[0]: input_tensor})
 
-        # print(f"Inference time: {(time.perf_counter() - start)*1000:.2f} ms")
+        print(f"Inference time: {(time.perf_counter() - start)*1000:.2f} ms")
         return outputs
 
     def process_output(self, output):
@@ -101,8 +102,13 @@ class YOLOv7:
 
     def parse_processed_output(self, outputs):
 
-        scores = np.squeeze(outputs[0], axis=1)
-        predictions = outputs[1]
+        #Pinto's postprocessing is different from the official nms version
+        if self.official_nms:
+            scores = outputs[0][:,-1]
+            predictions = outputs[0][:, [0,5,1,2,3,4]]
+        else:
+            scores = np.squeeze(outputs[0], axis=1)
+            predictions = outputs[1]
         # Filter out object scores below threshold
         valid_scores = scores > self.conf_threshold
         predictions = predictions[valid_scores, :]
@@ -114,11 +120,12 @@ class YOLOv7:
         # Extract the boxes and class ids
         # TODO: Separate based on batch number
         batch_number = predictions[:, 0]
-        class_ids = predictions[:, 1]
+        class_ids = predictions[:, 1].astype(int)
         boxes = predictions[:, 2:]
 
         # In postprocess, the x,y are the y,x
-        boxes = boxes[:, [1, 0, 3, 2]]
+        if not self.official_nms:
+            boxes = boxes[:, [1, 0, 3, 2]]
 
         # Rescale boxes to original image dimensions
         boxes = self.rescale_boxes(boxes)

@@ -1,16 +1,14 @@
 import cv2
-import pafy
+from cap_from_youtube import cap_from_youtube
 
-from YOLOv7 import YOLOv7
-from YOLOv7.utils import draw_comparison
+from yolov7 import YOLOv7
+from yolov7.utils import draw_comparison
 
 # Initialize video
 # cap = cv2.VideoCapture("input.mp4")
 
 videoUrl = 'https://youtu.be/zPre8MgmcHY'
-videoPafy = pafy.new(videoUrl)
-print(videoPafy.streams)
-cap = cv2.VideoCapture(videoPafy.streams[-1].url)
+cap = cap_from_youtube(videoUrl)
 start_time = 0  # skip first {start_time} seconds
 cap.set(cv2.CAP_PROP_POS_FRAMES, start_time * 60)
 

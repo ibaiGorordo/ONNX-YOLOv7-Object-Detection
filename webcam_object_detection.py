@@ -1,6 +1,6 @@
 import cv2
 
-from YOLOv7 import YOLOv7
+from yolov7 import YOLOv7
 
 # Initialize the webcam
 cap = cv2.VideoCapture(0)
